@@ -23,15 +23,15 @@ This project performs anomaly detection followed by customer segmentation using 
 START
 
 ### Step 1: Load the dataset
-LOAD 'customer_data.ods'
+ - LOAD 'customer_data.ods'
 
 ### Step 2: Initial Data Preprocessing
-DROP 'consumer_id' column (not useful for analysis)
-DROP 'account_status' column (constant values)
-REMOVE duplicates from the dataset
+ - DROP 'consumer_id' column (not useful for analysis)
+ - DROP 'account_status' column (constant values)
+ - REMOVE duplicates from the dataset
 
 ### Step 3: Handle Missing Values
-IF missing values in 'gender' or 'customer_age':
+* IF missing values in 'gender' or 'customer_age':
     APPLY MICE imputation on 'gender' and 'customer_age'
     REPLACE missing values
 
@@ -42,56 +42,56 @@ IF missing values in 'gender' or 'customer_age':
  - CREATE new column 'unique_offer_ctr' = 'unique_offer_clicked' / 'unique_offer_impressions'
 
 #### Log transformation of skewed features
-FOR each feature in ['customer_age', 'account_age', 'total_offer_clicks', 'account_last_updated', 
+ - FOR each feature in ['customer_age', 'account_age', 'total_offer_clicks', 'account_last_updated', 
                      'total_offer_impressions', 'total_offers_redeemed', 'unique_offer_clicked', 
                      'unique_offer_impressions']:
-    CONVERT feature to numeric (to handle errors)
-    APPLY log transformation: 'log_feature' = log('feature' + 1)
+     - CONVERT feature to numeric (to handle errors)
+     - APPLY log transformation: 'log_feature' = log('feature' + 1)
 
 #### Convert 'app_downloads' to binary format (1 if app is downloaded, else 0)
-TRANSFORM 'app_downloads' to 1 if value == 1, else 0
+ - TRANSFORM 'app_downloads' to 1 if value == 1, else 0
 
 ### Step 5: Handle Extreme Distributions with K-Modes Clustering
 #### Clustering based on categorical columns (demographic information)
-SELECT columns starting with 'has_'
-APPLY K-Modes clustering on selected 'has_' columns
-ADD new column 'demographic_cluster' with cluster labels
+ - SELECT columns starting with 'has_'
+ - APPLY K-Modes clustering on selected 'has_' columns
+ - ADD new column 'demographic_cluster' with cluster labels
 
 #### Clustering based on redemption-related features
-SELECT columns with 'redemptions' in the name
-APPLY K-Modes clustering on 'redemption' columns
-ADD new column 'redemption_cluster' with cluster labels
+ - SELECT columns with 'redemptions' in the name
+ - APPLY K-Modes clustering on 'redemption' columns
+ - ADD new column 'redemption_cluster' with cluster labels
 
 ### Step 6: Normalize Data (for both numerical and categorical features)
-FOR each numerical column:
-    APPLY Min-Max normalization (scale values between 0 and 1)
+ - FOR each numerical column:
+     - PPLY Min-Max normalization (scale values between 0 and 1)
 
 ### Step 7: Anomaly Detection (using multiple techniques)
-INITIALIZE anomaly detection models (LOF, Isolation Forest, DBSCAN, One-Class SVM, Autoencoders)
-FOR each anomaly detection model:
-    DETECT anomalies and store their indices
+ - INITIALIZE anomaly detection models (LOF, Isolation Forest, DBSCAN, One-Class SVM, Autoencoders)
+ - FOR each anomaly detection model:
+     - DETECT anomalies and store their indices
 
 #### Combine anomalies from all models and treat them as outliers
-FILTER outliers from the dataset
+ - FILTER outliers from the dataset
 
 ### Step 8: Customer Segmentation (using clustering models)
 #### K-Prototypes Clustering for mixed data types
-APPLY K-Prototypes to cluster customers into groups
+ - APPLY K-Prototypes to cluster customers into groups
 
 #### Gaussian Mixture Model (GMM) for probabilistic clustering
-APPLY GMM for clustering
+ - APPLY GMM for clustering
 
 #### Hierarchical Clustering for hierarchical segmentation
-APPLY Hierarchical Clustering and visualize using Dendrogram
+ - APPLY Hierarchical Clustering and visualize using Dendrogram
 
 #### Determine Optimal Number of Clusters
-USE Elbow method for K-Prototypes
-USE BIC for GMM
-USE Dendrogram for Hierarchical Clustering
+ - USE Elbow method for K-Prototypes
+ - USE BIC for GMM
+ - USE Dendrogram for Hierarchical Clustering
 
 ### Step 9: Visualize Clusters with PCA (2 components)
-PERFORM PCA to reduce data to 2 components
-PLOT customer groups on a 2D plane based on the first two principal components
+ - PERFORM PCA to reduce data to 2 components
+ - PLOT customer groups on a 2D plane based on the first two principal components
 
 
 END
