@@ -4,10 +4,11 @@ import os
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import google.generativeai as genai
 from langchain_community.vectorstores import Chroma
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.chains.question_answering import load_qa_chain
-from langchain.prompts import PromptTemplate
+# from langchain.chains.question_answering import load_qa_chain
+# from langchain.prompts import PromptTemplate
+from prompt import get_conversational_chain
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -56,28 +57,6 @@ def get_vector_store(text_chunks, collection_name, file_name):
         metadatas=metadata  
     )
     return vector_store
-
-def get_conversational_chain():
-    """Load the QA chain with a Google Generative AI model."""
-    prompt_template = """
-    You are a helpful AI assistant. Your task is to answer questions based solely on the provided context.
-    
-    Please adhere to the following instructions:
-    
-    1. **Use only the information provided in the context**. Do not use outside knowledge or assumptions.
-    2. **If the answer is not found in the context**, clearly state: "Answer is not available in the context."
-    3. **Provide concise and clear answers**. Be as accurate as possible while staying within the information given.
-    4. **Do not speculate or invent facts**.
-    
-    Context:\n{context}\n
-    ---
-    Question:\n{question}\n
-    ---
-    **Answer**:
-    """
-    model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3)
-    prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    return load_qa_chain(model, chain_type="stuff", prompt=prompt)
 
 def user_input(user_question, collection_name):
     """Handle user queries using the vector store and LLM."""
@@ -150,7 +129,6 @@ def main():
     
     # Page 2: Chatbot interaction - Designed for Users
     elif page == "Chatbot":
-        st.subheader("Chat with the AI Bot")
         if 'text_chunks' in st.session_state:
             collection_name = st.text_input("Ensure the Chatbot is connected to the Vector DB", value="dataengine-collection")
             user_question = st.text_input("Ask me a question!!")

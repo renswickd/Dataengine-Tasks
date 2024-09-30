@@ -7,3 +7,6 @@ venv/
 .python-version
 .vscode/
 .DS_Store
+chroma_db_directory/
+Task3/convAI.py
+Task3/.env
