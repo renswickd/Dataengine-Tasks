@@ -11,7 +11,6 @@
 ├── Task3/                                  # Task 3 scripts and related files
 │   ├── main.py                             # Main Python script for Task 3 execution
 │   ├── prompt.py                           # Supporting script for prompt management
-│   └── Screen Recording.mov                # Demo Task 3
 │
 ├── README.md                               # Project documentation (this file)
 ├── requirements.txt                        # List of dependencies for the project
