@@ -37,9 +37,9 @@ IF missing values in 'gender' or 'customer_age':
 
 ### Step 4: Feature Engineering
 #### Create new features based on customer behavior
-CREATE new column 'ctr' = 'total_offer_clicks' / 'total_offer_impressions'
-CREATE new column 'redemption_rate' = 'total_offers_redeemed' / 'total_offer_clicks'
-CREATE new column 'unique_offer_ctr' = 'unique_offer_clicked' / 'unique_offer_impressions'
+ - CREATE new column 'ctr' = 'total_offer_clicks' / 'total_offer_impressions'
+ - CREATE new column 'redemption_rate' = 'total_offers_redeemed' / 'total_offer_clicks'
+ - CREATE new column 'unique_offer_ctr' = 'unique_offer_clicked' / 'unique_offer_impressions'
 
 #### Log transformation of skewed features
 FOR each feature in ['customer_age', 'account_age', 'total_offer_clicks', 'account_last_updated', 
